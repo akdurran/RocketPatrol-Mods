@@ -52,7 +52,24 @@ class Play extends Phaser.Scene {
       },
       fixedWidth: 100
     }
-    this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
+    this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2,
+      this.p1Score, scoreConfig);
+
+    let highScoreConfig = {
+      fontFamily: 'Courier',
+      fontSize: '28px',
+      backgroundColor: 'F3B141',
+      color: '#843605',
+      alin: 'left',
+      padding: {
+        top: 5,
+        bottom: 5,
+      },
+      fixedWidth: 100
+    }
+    
+    this.scoreRight = this.add.text(borderUISize + borderPadding *43, borderUISize + borderPadding *2, highScore, highScoreConfig);
+    
     // GAME OVER flag
     this.gameOver = false;
 
@@ -120,6 +137,10 @@ class Play extends Phaser.Scene {
     });
     // score add and repaint
     this.p1Score += ship.points;
+    if (this.p1Score > highScore){
+      highScore=this.p1Score;
+      this.scoreRight.text = highScore;
+    }
     this.scoreLeft.text = this.p1Score;
     this.sound.play('sfx_explosion');
 
