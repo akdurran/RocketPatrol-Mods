@@ -90,18 +90,23 @@ class Play extends Phaser.Scene {
     // GAME OVER flag
     this.gameOver = false;
 
+    this.speedIncreaseClock = this.time.delayedCall(game.settings.gameTimer/2, () => {
+      this.ship01.moveSpeed*=10;
+      this.ship02.moveSpeed*=10;
+      this.ship03.moveSpeed*=10;
+      console.log("Speed Increased");
+    }, null, this);
 
     // 60-second play clock
     scoreConfig.fixedWidth = 0;
     this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-      this.sound.stopAll();
       this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
       this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
       this.gameOver = true;
       
     }, null, this);
 
-
+   
   }
   update() {
     // check key input for restart
