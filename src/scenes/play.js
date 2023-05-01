@@ -91,10 +91,9 @@ class Play extends Phaser.Scene {
     this.gameOver = false;
 
     this.speedIncreaseClock = this.time.delayedCall(game.settings.gameTimer/2, () => {
-      this.ship01.moveSpeed*=10;
-      this.ship02.moveSpeed*=10;
-      this.ship03.moveSpeed*=10;
-      console.log("Speed Increased");
+      this.ship01.moveSpeed*=2;
+      this.ship02.moveSpeed*=2;
+      this.ship03.moveSpeed*=2;
     }, null, this);
 
     // 60-second play clock
