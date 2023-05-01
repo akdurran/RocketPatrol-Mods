@@ -12,6 +12,9 @@ class Play extends Phaser.Scene {
 
   }
   create() {
+
+    this.explosionSounds = ['sfx_explosion', 'sfx_explosion2', 'sfx_explosion3', 'sfx_explosion4',
+    'sfx_explosion5'];
     this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
     // green UI background
     this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
@@ -86,7 +89,7 @@ class Play extends Phaser.Scene {
     }
 
     this.fireLabel = this.add.text(borderUISize + borderPadding * 20, borderUISize + borderPadding * 2, 
-      'FIRE', highScoreConfig);
+      'FIRE', fireConfig);
     // GAME OVER flag
     this.gameOver = false;
 
@@ -171,7 +174,7 @@ class Play extends Phaser.Scene {
       this.scoreRight.text = highScore;
     }
     this.scoreLeft.text = this.p1Score;
-    this.sound.play('sfx_explosion');
+    this.sound.play(this.explosionSounds[Phaser.Math.Between(0,4)]);
 
   }
 
