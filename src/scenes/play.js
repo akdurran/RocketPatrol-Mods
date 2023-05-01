@@ -9,6 +9,8 @@ class Play extends Phaser.Scene {
     this.load.image('starfield', './assets/background.png');
     // load spritesheet
     this.load.spritesheet('explosion', './assets/explosion.png', { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
+    this.load.spritesheet('animSpaceship', './assets/Sprite-0002.png', {frameWidth : 64, frameHeight : 32, startFrame: 0, endFrame: 3});
+
 
   }
   create() {
@@ -26,9 +28,10 @@ class Play extends Phaser.Scene {
     // add rocket (p1)
     this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
     // add spaceships (x3)
-    this.ship01 = new Spaceship(this, game.config.width + borderUISize * 6, borderUISize * 4, 'spaceship', 0, 30).setOrigin(0, 0);
-    this.ship02 = new Spaceship(this, game.config.width + borderUISize * 3, borderUISize * 5 + borderPadding * 2, 'spaceship', 0, 20).setOrigin(0, 0);
-    this.ship03 = new Spaceship(this, game.config.width, borderUISize * 6 + borderPadding * 4, 'spaceship', 0, 10).setOrigin(0, 0);
+    this.ship01 = new Spaceship(this, game.config.width + borderUISize * 6, borderUISize * 4, 'animSpaceship', 0, 30).setOrigin(0, 0);
+    this.ship02 = new Spaceship(this, game.config.width + borderUISize * 3, borderUISize * 5 + borderPadding * 2, 'animSpaceship', 0, 20).setOrigin(0, 0);
+    this.ship03 = new Spaceship(this, game.config.width, borderUISize * 6 + borderPadding * 4, 'animSpaceship', 0, 10).setOrigin(0, 0);
+    
     // define keys
     keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
     keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -39,6 +42,12 @@ class Play extends Phaser.Scene {
       key: 'explode',
       frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0 }),
       frameRate: 30
+    });
+    
+    this.anims.create({
+      key: 'fly',
+      frames: this.anims.generateFrameNumbers('animSpaceship', { start: 0, end: 3, first: 0 }),
+      frameRate: 15
     });
     // initialize score
     this.p1Score = 0;
@@ -119,10 +128,23 @@ class Play extends Phaser.Scene {
       this.add.text(game.config.width / 2, game.config.height / 2, 'GAME OVER', scoreConfig).setOrigin(0.5);
       this.add.text(game.config.width / 2, game.config.height / 2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
       this.gameOver = true;
-
     }, null, this);
 
-
+    this.ship01.anims.play('fly');
+    this.ship01.on('animationcomplete', () => {    // callback after anim completes
+      this.ship01.anims.play('fly');  
+      console.log('animcomplete');                   
+    }); 
+    this.ship02.anims.play('fly');
+    this.ship02.on('animationcomplete', () => {    // callback after anim completes
+      this.ship02.anims.play('fly');  
+      console.log('animcomplete');                   
+    }); 
+    this.ship03.anims.play('fly');
+    this.ship03.on('animationcomplete', () => {    // callback after anim completes
+      this.ship03.anims.play('fly');  
+      console.log('animcomplete');                   
+    }); 
   }
   update() {
     // check key input for restart
