@@ -17,6 +17,8 @@
     Create 4 new explosion sound effects and randomize which one plays on impact (10)
     Display the time remaining (in seconds) on the screen (10)
     Using a texture atlas, create a new animated sprite for the Spaceship enemies (10)
+    Create a new title screen (e.g., new artwork, typography, layout) (10)
+    
 
     https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
 */
