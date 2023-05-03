@@ -7,6 +7,8 @@ class Play extends Phaser.Scene {
     this.load.image('rocket', './assets/rocket.png');
     this.load.image('spaceship', './assets/spaceship.png');
     this.load.image('starfield', './assets/background.png');
+    this.load.image('starfield2', './assets/background2.png');
+    this.load.image('particle', './assets/particle.png');
     // load spritesheet
     this.load.spritesheet('explosion', './assets/explosion.png', { frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9 });
     this.load.spritesheet('animSpaceship', './assets/Sprite-0002.png', {frameWidth : 64, frameHeight : 32, startFrame: 0, endFrame: 3});
@@ -18,6 +20,7 @@ class Play extends Phaser.Scene {
     this.explosionSounds = ['sfx_explosion', 'sfx_explosion2', 'sfx_explosion3', 'sfx_explosion4',
       'sfx_explosion5'];
     this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
+    this.starfield2 = this.add.tileSprite(0,0,640,480, 'starfield2').setOrigin(0,0);
     // green UI background
     this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
     // white borders
@@ -121,7 +124,6 @@ class Play extends Phaser.Scene {
       }
       timeleft -= 1;
       timeLabel.text = timeleft;
-      console.log("decremtn");
     }, 1000);
 
     this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
@@ -133,18 +135,29 @@ class Play extends Phaser.Scene {
     this.ship01.anims.play('fly');
     this.ship01.on('animationcomplete', () => {    // callback after anim completes
       this.ship01.anims.play('fly');  
-      console.log('animcomplete');                   
+                        
     }); 
     this.ship02.anims.play('fly');
     this.ship02.on('animationcomplete', () => {    // callback after anim completes
       this.ship02.anims.play('fly');  
-      console.log('animcomplete');                   
+                     
     }); 
     this.ship03.anims.play('fly');
     this.ship03.on('animationcomplete', () => {    // callback after anim completes
       this.ship03.anims.play('fly');  
-      console.log('animcomplete');                   
+                   
     }); 
+
+    // Create the particle emitter
+    this.particles = this.add.particles(400, 250, 'particle', {
+      lifespan: 4000,
+      speed: { min: 150, max: 250 },
+      scale: { start: 0.8, end: 0 },
+      blendMode: 'ADD',
+      emitting: false
+  });
+    
+    
   }
   update() {
     // check key input for restart
@@ -155,6 +168,7 @@ class Play extends Phaser.Scene {
       this.scene.start("menuScene");
     }
     this.starfield.tilePositionX -= 4;
+    this.starfield2.tilePositionX -=2;
     if (!this.gameOver) {
       this.p1Rocket.update();
       this.ship01.update();               // update spaceships (x3)
@@ -197,7 +211,9 @@ class Play extends Phaser.Scene {
     ship.alpha = 0;
     // create explosion sprite at ship's position
     let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
-    boom.anims.play('explode');             // play explode animation
+    boom.anims.play('explode');             // play explode 
+  
+    this.particles.explode(16, ship.x, ship.y);
     boom.on('animationcomplete', () => {    // callback after anim completes
       ship.reset();                         // reset ship position
       ship.alpha = 1;                       // make ship visible again

@@ -18,7 +18,10 @@
     Display the time remaining (in seconds) on the screen (10)
     Using a texture atlas, create a new animated sprite for the Spaceship enemies (10)
     Create a new title screen (e.g., new artwork, typography, layout) (10)
-    
+    Implement parallax scrolling for the background (10)
+
+    15-Point Tier
+    Use Phaser's particle emitter to create a particle explosion when the rocket hits the spaceship (15) - attempted, but for some reason the particles spawn in the corner of the screen
 
     https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
 */
